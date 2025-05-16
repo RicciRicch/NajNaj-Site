@@ -8,14 +8,88 @@
       rel="stylesheet"
       href="/static/css/output.css"
     />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Kreon:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
   </head>
-  <body>
-    <header>
-      
+  <body class="min-h-screen flex flex-col">
+    <header class="fixed top-0 w-full z-50 bg-rose">
+      <nav id="navbar" class="container m-auto flex justify-between items-center h-20 md:h-24 w-full">
+        <div class="">
+          <a href=""><img src="/static/image/najnajlogobezpoz 1.png" alt="logo" class="w-28 lg:w-36"></a>
+        </div>
+        <div id="navmenu" class="absolute min-h-[80vh] top-0 bg-rose/80 w-full flex justify-center items-center
+        left-[-100%] duration-300 md:static md:min-h-fit md:bg-transparent md:justify-end">
+          <ul class="md:flex-row flex flex-col items-center gap-y-8 text-2xl gap-x-12">
+            <li class="hover:text-blue duration-200 cursor-pointer">
+              MENI
+            </li>
+            <li class="hover:text-blue duration-200 cursor-pointer">
+              KONTAKT
+            </li>
+            <li class="bg-red-600 p-4 rounded-tl-2xl rounded-br-2xl hover:bg-red-600/60 duration-300 hover:text-white">
+              <a href="tel:+381641234567" class="">NARUCI</a>
+              <span><i class="ri-phone-fill text-2xl"></i></span>
+            </li>
+          </ul>
+        </div>
+        <div class="z-51 text-2xl">
+          <i id="burger" class="ri-menu-line cursor-pointer md:hidden"></i>
+        </div>
+      </nav>
     </header>
-    <main>{% block cotent %}{% endblock %}</main>
-    <footer></footer>
+    <main class="flex">{% block cotent %}{% endblock %}</main>
+    <a href="tel:+381123456789" 
+      class="fixed bottom-100 right-6 bg-rose text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg animate-bounce z-50 hover:bg-rose-400"
+      aria-label="Pozovi nas">
+      <i class="ri-phone-fill text-2xl"></i>
+    </a>
+    <footer class="absolute bg-rose bottom-0 w-full">
+      <div class="flex flex-row">
+        <!-- Leva kolona -->
+        <div class="w-1/3 text-sm  pl-6 my-auto space-y-2 md:ml-12 lg:ml-16 xl:ml-24">
+          <h1 class="font-bold text-xl md:text-2xl lg:text-3xl font-secondary">Naj...Naj</h1>
+          <p class="font-secondary md:text-xl lg:text-2xl">12000 Požarevac</p>
+          <p class="font-secondary md:text-xl lg:text-2xl">Lenjinova 1</p>
+          <a href="mailto:najnaj@gmail.com" class="font-secondary md:text-xl lg:text-2xl">najnaj@gmail.com</a>
+        </div>
+
+        <!-- Srednja kolona sa logoom -->
+        <div class="w-1/3 relative flex flex-col items-center">
+          <img src="/static/image/najnajlogobezpoz 1.png"
+              alt="logo"
+              class="absolute -top-10 md:-top-12 h-32 md:h-40 z-10" />
+          <div class="mt-60 text-center text-sm md:text-lg lg:text-2xl font-secondary">
+            Social media
+          </div>
+          <div class="mt-4 flex gap-4 lg:gap-6 mb-8">
+            <div class="bg-white rounded-full p-1">
+              <a href="https://facebook.com" target="_blank">
+              <i class="ri-facebook-fill text-gray-600 text-4xl lg:text-5xl hover:text-black"></i>
+            </a>
+            </div>
+            <div class="bg-white rounded-full p-1">
+              <a href="https://www.instagram.com/najnaj_pozarevac/" target="_blank">
+                <i class="ri-instagram-line text-gray-600 text-4xl lg:text-5xl hover:text-black"></i>
+              </a>
+            </div>
+            <div class="bg-white rounded-full p-1">
+              <a href="https://www.tiktok.com/@naj...naj?_r=1&_d=efja7iglc97fh9&sec_uid=MS4wLjABAAAAyIquNaRuP-gUKBooFRyIsbIyDw-nqs7a7JGzM6U4T2IQ6W5ZiugTbABFNLKy7DyD&share_author_id=7494686037428732983&sharer_language=en&source=h5_m&u_code=ejmk4jk40c3kcc&ug_btm=b8727,b0&sec_user_id=MS4wLjABAAAAyIquNaRuP-gUKBooFRyIsbIyDw-nqs7a7JGzM6U4T2IQ6W5ZiugTbABFNLKy7DyD&utm_source=whatsapp&social_share_type=5&utm_campaign=client_share&utm_medium=ios&tt_from=whatsapp&user_id=7494686037428732983&enable_checksum=1&share_link_id=50A2BFF7-CC42-42AC-BD7D-D4DB49FEAE74&share_app_id=1233" target="_blank">
+                <i class="ri-tiktok-fill text-gray-600 text-4xl lg:text-5xl hover:text-black"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+    <!-- Desna kolona -->
+        <div class="w-1/3 my-auto text-center mr-6 md:text-xl">
+          © 2025 <span class="font-semibold">Naj...Naj</span>. 
+          <a href="/politika-privatnosti" class="underline hover:text-rose-300 transition">
+            Politika privatnosti
+          </a>
+        </div>
+      </div>
+    </footer>
+    <script src="/static/js/base.js"></script>
   </body>
 </html>
