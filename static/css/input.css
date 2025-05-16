@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+*{
+    box-sizing: border-box;
+}
+
+.container{
+    @apply mx-auto px-4;
+}
+
+body {
+    font-family: 'Kreon', serif;
+}
+
+@theme{
+    --font-primary: "Kreon", "serif";
+    --font-secondary: "Pacifico" , "cursive"; 
+    --color-rose: #F7B3C9;
+    --color-blue: #7FCECD;
+}
