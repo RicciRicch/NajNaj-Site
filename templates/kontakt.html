@@ -1,1 +1,94 @@
-{% extends "base.html" %} {% block content %} {% endblock %}
+{% extends "base.html" %} 
+{% block content %}
+<div class="relative w-full md:h-[90vh]">
+    <img src="/static/image/lokal.jpeg" alt="slika_lokala" class="w-full h-full object-cover">
+    <div class="absolute top-1/2 left-1/3 transform -translate-x-1/2 -translate-y-1/2
+    text-black font-bold">
+        <p class="text-5xl md:text-7xl lg:text-9xl">KOD</p>
+        <p class="text-5xl md:text-7xl lg:text-9xl">NAS</p>
+        <p class="text-5xl md:text-7xl lg:text-9xl">SAMO</p>
+        <p class="text-blue text-7xl md:text-8xl lg:text-9xl text-stroke">NAJ <span class="text-rose">NAJ</span> </p>
+    </div>
+</div> 
+<section id="forma" class="flex flex-col items-center">
+    <div class="p-12 text-center">
+        <h2 class="text-6xl font-bold text-rose text-stroke">PIŠI <span class="text-blue">NAM</span></h2>
+        <p class="font-secondary text-xl">Imate pitanje, sugestiju ili komentar?</p>
+    </div>
+    <div class="container px-12">
+        <form id="contactForm" class="flex flex-col items-center space-y-8">
+            <input 
+                type="text"
+                id="name"
+                name="name"
+                required
+                placeholder="Vaše ime"
+                class="bg-gray-400 px-6 py-2 text-center rounded-xl w-full"
+            />
+            <input 
+                type="email"
+                id="email"
+                name="email"
+                required
+                placeholder="Vaš email"
+                class="bg-gray-400 px-6 py-2 text-center rounded-xl w-full"
+            />
+            <label for="message">Vaša poruka:</label>
+            <textarea 
+                name="message" 
+                id="message" 
+                required
+                rows="5"
+                class="bg-gray-400 px-6 py-2 rounded-xl w-full">
+            </textarea>
+
+            <button type="submit" class="dugme cursor-pointer">POŠALJI</button>
+
+            <p id="statusMsg" class="text-center mt-3 text-sm hidden"></p>
+        </form>
+    </div>
+</section>
+<div class="relative h-32">
+     <svg
+    class="absolute top-5 h-12 w-full transform -scale-x-100"
+    viewBox="0 0 1440 320"
+    preserveAspectRatio="none"
+  >
+    <path
+      fill="#F7B3C9"
+      fill
+      fill-opacity="1"
+      d="M0,160 C480,320 960,0 1440,160 L1440,320 L0,320 Z"
+    ></path>
+  </svg>
+   <svg
+    class="absolute top-16 h-12 w-full transform -scale-y-100"
+    viewBox="0 0 1440 320"
+    preserveAspectRatio="none"
+  >
+    <path
+      fill="#7FCECD"
+      fill-opacity="1"
+      d="M0,160 C480,320 960,0 1440,160 L1440,320 L0,320 Z"
+    ></path>
+  </svg>
+</div>
+<section class="container flex flex-col lg:flex-row lg:space-x-24 lg:justify-between justify-center items-center py-12 space-y-20 mb-16">
+    <div class="flex flex-col items-center text-4xl font-bold space-y-6">
+        <h2 class="text-6xl font-bold text-blue text-stroke">POSETITE<span class="text-rose"> NAS</span></h2>
+        <p>Lenjinova 1</p>
+        <p>12 000 Požarevac, Srbija</p>
+    </div>
+    <div class="h-96">
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d177.48805001339338!2d21.184747836557797!3d44.62138398698916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4750ef0c49c2b517%3A0x49fd458f78c2880f!2sLenjinova%201%2C%20Po%C5%BEarevac!5e0!3m2!1sen!2srs!4v1747477204111!5m2!1sen!2srs"
+            width="600"
+            height="450" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+</section>
+{% endblock %}

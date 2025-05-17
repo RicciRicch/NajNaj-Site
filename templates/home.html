@@ -1,3 +1,49 @@
-{% extends "base.html" %}
-{% block content %} 
+{% extends 'base.html' %}
+{% block content %}
+<section class="relative w-full bg-black h-[70vh] xl:h-[90vh] overflow-hidden">
+  <video id="videoPlayer" class="w-full h-full object-cover fade-in" autoplay muted playsinline></video>
+  <button class="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-blue hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 text-2xl lg:text-3xl font-secondary">
+    Pogledaj meni
+  </button>
+</section>
+
+
+<section class="px-4 mb-12">
+  <div class="container mx-auto mt-8 mb-12 flex flex-col lg:flex-row justify-center items-center gap-8 lg:gap-16">
+    
+    <!-- Tekstualni naslov -->
+    <div class="text-center font-bold text-3xl md:text-4xl text-blue lg:w-1/2 lg:h-auto">
+      <div class="flex lg:flex-col justify-center items-center gap-8 text-red-600 mb-6 p-2 rounded-2xl">
+        <div class="flex items-center gap-3">
+            <div class="bg-amber-300 rounded-full text-2xl px-3 py-2 inline-block">Novo</div>
+            <h1 class="text-blue font-bold font-secondary text-4xl lg:text-5xl xl:text-6xl">Letnji hit</h1>
+        </div>
+
+        <div class="hidden lg:block mt-8 flex flex-wrap justify-center items-center gap-6 md:gap-14 text-lg md:text-2xl lg:w-1/2 lg:mx-auto">
+            <div class="bg-red-300 px-6 md:px-8 py-6 md:py-10 rounded-full text-center min-w-[120px]">JAGODE</div>
+            <div class="text-3xl font-bold">+</div>
+            <div class="bg-gray-200 px-6 md:px-8 py-6 md:py-10 rounded-full text-center min-w-[120px]">ŠLAG</div>
+            <div class="text-3xl font-bold">+</div>
+            <div class="bg-orange-800 text-white px-8 md:px-10 py-6 md:py-8 rounded-full text-center min-w-[120px]">ČOKOLADA</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slika -->
+    <div class="w-full lg:w-1/2">
+      <img src="/static/image/jagode.jpg" alt="jagode" class="w-full h-auto max-h-[500px] object-cover rounded-xl shadow-lg">
+    </div>
+  </div>
+
+  <div class="mt-8 flex flex-wrap justify-center items-center gap-6 md:gap-14 text-lg md:text-2xl lg:w-1/2 lg:mx-auto lg:hidden">
+    <div class="bg-red-300 px-6 md:px-8 py-6 md:py-10 rounded-full text-center min-w-[120px]">JAGODE</div>
+    <div class="text-3xl font-bold">+</div>
+    <div class="bg-gray-200 px-6 md:px-8 py-6 md:py-10 rounded-full text-center min-w-[120px]">ŠLAG</div>
+    <div class="text-3xl font-bold">+</div>
+    <div class="bg-orange-800 text-white px-8 md:px-10 py-6 md:py-8 rounded-full text-center min-w-[120px]">ČOKOLADA</div>
+  </div>
+</section>
+
+
+
 {% endblock %}

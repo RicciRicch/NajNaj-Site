@@ -18,3 +18,21 @@ body {
     --color-rose: #F7B3C9;
     --color-blue: #7FCECD;
 }
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.7s ease;
+}
+
+.fade-in {
+    opacity: 1;
+    transition: opacity 0.7s ease;
+}
+
+.dugme{
+    @apply w-full bg-rose text-black hover:bg-blue duration-200 py-3 rounded-xl transition hover:border-1
+}
+
+.text-stroke {
+  -webkit-text-stroke: 1px black; /* debljina i boja obrisa */
+}
