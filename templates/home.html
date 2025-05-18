@@ -172,8 +172,8 @@
       <img src="{{ url_for('static', filename='/image/slatke.jpg') }}" alt="Slatke palačinke" class="object-cover w-full h-full">
     </div>
     <h1 class="text-lg font-semibold mt-4 xl:mb-4 mb-2 lg:text-xl xl:text-2xl">Slatke palačinke</h1>
-    <button class="bg-blue-500 cursor-pointer hover:bg-blue-600 text-white px-4 py-2 rounded xl:text-xl xl:px-6 xl:py-4">
-      Pogledaj
+    <button  class="bg-blue-500 cursor-pointer hover:bg-blue-600 text-white px-4 py-2 rounded xl:text-xl xl:px-6 xl:py-4">
+      <a href="{{url_for('meni')}}#slatke" class="pogledaj">Pogledaj</a>
     </button>
   </div>
   <!-- Kartica 2 -->
@@ -183,17 +183,17 @@
     </div>
     <h1 class="text-lg font-semibold mt-4 xl:mb-4 mb-2 lg:text-xl xl:text-2xl">Slane palačinke</h1>
     <button class="bg-blue-500 cursor-pointer hover:bg-blue-600 text-white px-4 py-2 rounded xl:text-xl xl:px-6 xl:py-4">
-      Pogledaj
+      <a href="{{url_for('meni')}}#slane" class="pogledaj">Pogledaj</a>
     </button>
   </div>
   <!-- Kartica 3 -->
    <div class="bg-rose lg:bg-blue rounded-xl shadow-md overflow-hidden flex flex-col items-center text-center p-4">
     <div class="w-full h-40 overflow-hidden rounded-md xl:h-80 lg:h-60">
-      <img src="{{ url_for('static', filename='/image/wafli.jpg') }}" alt="Wafli" class="object-cover w-full h-full">
+      <img src="{{url_for('static', filename='/image/wafli.jpg') }}" alt="Wafli" class="object-cover w-full h-full">
     </div>
     <h1 class="text-lg font-semibold mt-4 xl:mb-4 mb-2 lg:text-xl xl:text-2xl">Bubble waffli</h1>
     <button class="bg-blue-500 cursor-pointer hover:bg-blue-600 text-white px-4 py-2 rounded xl:text-xl xl:px-6 xl:py-4">
-      Pogledaj
+      <a href="{{url_for('meni')}}#waffle" class="pogledaj">Pogledaj</a>
     </button>
   </div>
   <!-- Kartica 4 -->
@@ -203,7 +203,7 @@
     </div>
     <h1 class="text-lg font-semibold mt-4 xl:mb-4 mb-2 lg:text-xl xl:text-2xl">Sendvici i hotdog</h1>
     <button class="bg-blue-500 cursor-pointer hover:bg-blue-600 text-white px-4 py-2 rounded xl:text-xl xl:px-6 xl:py-4">
-      Pogledaj
+      <a href="{{url_for('meni')}}#sendvici" class="pogledaj">Pogledaj</a>
     </button>
   </div>
   <!-- Kartica 5 -->
@@ -213,7 +213,7 @@
     </div>
     <h1 class="text-lg font-semibold mt-4 xl:mb-4 mb-2 lg:text-xl xl:text-2xl">Bubble tea</h1>
     <button class="bg-blue-500 cursor-pointer hover:bg-blue-600 text-white px-4 py-2 rounded xl:text-xl xl:px-6 xl:py-4">
-      Pogledaj
+      <a href="{{url_for('meni')}}#tea" class="pogledaj">Pogledaj</a>
     </button>
   </div>
   <!-- Kartica 6 -->
@@ -223,7 +223,7 @@
     </div>
     <h1 class="text-lg font-semibold mt-4 xl:mb-4 mb-2 lg:text-xl xl:text-2xl">Hladni napici</h1>
     <button class="bg-blue-500 cursor-pointer hover:bg-blue-600 text-white px-4 py-2 rounded xl:text-xl xl:px-6 xl:py-4">
-      Pogledaj
+      <a href="{{url_for('meni')}}#napici" class="pogledaj">Pogledaj</a>
     </button>
   </div> 
 
