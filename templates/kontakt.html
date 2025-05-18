@@ -16,7 +16,7 @@
         <p class="font-secondary text-xl">Imate pitanje, sugestiju ili komentar?</p>
     </div>
     <div class="container px-12">
-        <form id="contactForm" class="flex flex-col items-center space-y-8">
+        <form action="{{url_for('send_message')}}" method="POST" id="contactForm" class="flex flex-col items-center space-y-8">
             <input 
                 type="text"
                 id="name"
@@ -91,4 +91,16 @@
         </iframe>
     </div>
 </section>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="fixed top-5 right-5 z-50">
+      {% for category, message in messages %}
+        <div class="mb-4 px-4 py-2 rounded {{ 'bg-green-500 text-white' if category == 'success' else 'bg-red-500 text-white' }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
 {% endblock %}
