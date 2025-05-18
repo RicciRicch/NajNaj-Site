@@ -7,9 +7,9 @@ app.secret_key = "najnaj_pozarevac"
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'dusan.ristic.car@gmail.com'
-app.config['MAIL_PASSWORD'] = 'najnaj_pozarevac'
-app.config['MAIL_DEFAULT_SENDER'] = 'dusan.ristic.car@gmail.com'
+app.config['MAIL_USERNAME'] = 'zulbrad23@gmail.com'
+app.config['MAIL_PASSWORD'] = 'mzrxllrrihbtrwyj'
+app.config['MAIL_DEFAULT_SENDER'] = 'zulbrad23@gmail.com'
 
 mail =Mail(app)
 
@@ -38,7 +38,7 @@ def send_message():
     try:
         msg = Message(subject=f"Poruka od {name}",
                       sender=email,
-                      recipients=["dusan.ristic.car@gmail.com"])
+                      recipients=['zulbrad23@gmail.com'])
         msg.body = f"Od: {name} <{email}> \n\n Poruka:\n{message}"
         mail.send(msg)
         flash("Poruka je poslata!", "success")
