@@ -38,10 +38,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const videoPlayer = document.getElementById("videoPlayer");
 
    const videos = [
+    "/static/video/malinanadev.mov",
+    "/static/video/ferrero.mov",
+    "/static/video/bobe.mov",
     "/static/video/palacinka1.mov",
+    "/static/video/kinderferrero.mov",
     "/static/video/palacinka2.mov",
+    "/static/video/svetleci.mov",
     "/static/video/palacinka3.mov",
-    "/static/video/kinder.mov"
+    "/static/video/kinder.mov",
+    "/static/video/slushy.mov",
+    "/static/video/slanapal.mov",
+    "/static/video/slanapalacinka.mov",
   ];
 
     let currentVideoIndex = 0;

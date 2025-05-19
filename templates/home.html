@@ -3,9 +3,11 @@
 <!-- Video sekcija -->
 <section class="relative w-full bg-black h-[70vh] xl:h-[90vh] overflow-hidden">
   <video id="videoPlayer" class="w-full h-full object-cover fade-in" autoplay muted playsinline></video>
-  <button class="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-blue hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 text-2xl lg:text-3xl font-secondary">
+  <a href="{{ url_for('meni')}}">
+    <button class="cursor-pointer absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-blue hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 text-2xl lg:text-3xl font-secondary">
     Pogledaj meni
-  </button>
+    </button>
+  </a>
 </section>
 
 <!-- Sekcija za nov proizvod -->
