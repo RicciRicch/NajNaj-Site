@@ -39,8 +39,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
    const videos = [
     "/static/video/pudinzi.mov",
+    "/static/video/monte_carlo.mov",
+    "/static/video/slana_najnaj.MOV",
     "/static/video/malinanadev.mov",
-    "/static/video/ferrero.mov",
     "/static/video/bobe.mov",
     "/static/video/jagode.mov",
     "/static/video/palacinka1.mov",
