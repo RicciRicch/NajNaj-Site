@@ -38,21 +38,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const videoPlayer = document.getElementById("videoPlayer");
 
    const videos = [
-    "/static/video/pudinzi.mov",
     "/static/video/monte_carlo.mov",
+    "/static/video/pudinzi.mov",
     "/static/video/slana_najnaj.MOV",
-    "/static/video/malinanadev.mov",
+    "/static/video/kinderferrero.mov",
     "/static/video/bobe.mov",
+    "/static/video/malinanadev.mov",
     "/static/video/jagode.mov",
     "/static/video/palacinka1.mov",
-    "/static/video/kinderferrero.mov",
     "/static/video/palacinka2.mov",
     "/static/video/svetleci.mov",
     "/static/video/palacinka3.mov",
     "/static/video/kinder.mov",
     "/static/video/slushy.mov",
     "/static/video/slanapal.mov",
-    "/static/video/slanapalacinka.mov",
   ];
 
     let currentVideoIndex = 0;
