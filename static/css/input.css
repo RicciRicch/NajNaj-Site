@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 *{
     box-sizing: border-box;
@@ -12,27 +14,24 @@ body {
     font-family: 'Kreon', serif;
 }
 
-@theme{
-    --font-primary: "Kreon", "serif";
-    --font-secondary: "Pacifico" , "cursive"; 
-    --color-rose: #F7B3C9;
-    --color-blue: #7FCECD;
+@layer components {
+    .dugme{
+        @apply w-full bg-rose text-black hover:bg-blue duration-200 py-3 rounded-xl transition hover:border
+    }
 }
 
-.fade-out {
-    opacity: 0;
-    transition: opacity 0.7s ease;
-}
+@layer utilities {
+    .fade-out {
+        opacity: 0;
+        transition: opacity 0.7s ease;
+    }
 
-.fade-in {
-    opacity: 1;
-    transition: opacity 0.7s ease;
-}
+    .fade-in {
+        opacity: 1;
+        transition: opacity 0.7s ease;
+    }
 
-.dugme{
-    @apply w-full bg-rose text-black hover:bg-blue duration-200 py-3 rounded-xl transition hover:border-1
-}
-
-.text-stroke {
-  -webkit-text-stroke: 1px black; /* debljina i boja obrisa */
+    .text-stroke {
+        -webkit-text-stroke: 1px black; /* debljina i boja obrisa */
+    }
 }
