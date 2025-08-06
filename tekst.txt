@@ -1,0 +1,4 @@
+Objašnjenje: .dockerignore fajl omogućava da isključimo nepotrebne fajlove iz Docker build konteksta, što ubrzava build proces i smanjuje veličinu image-a.
+
+--no-cache - Forsira Docker da ne koristi postojeći cache i gradi image od početka. Ovo je korisno kada želimo da osiguramo da se sve zavisnosti instaliraju na najnoviji način.
+--progress=plain - Prikazuje detaljan output tokom build procesa umesto skraćenog. Ovo je korisno za debugging i praćenje koraka build-a.
