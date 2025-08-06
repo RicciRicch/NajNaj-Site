@@ -15,7 +15,6 @@ services:
     volumes:
       - ./templates:/app/templates:ro
       - ./static:/app/static:ro
-      - flask-data:/app
     restart: unless-stopped
     logging:
       driver: "json-file"
