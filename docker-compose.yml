@@ -1,68 +1,52 @@
 version: '3.8'
 
-name: najnaj-web-app
+name: najnaj
 
 services:
-  flask-app:
+  # Servis za Flask backend aplikaciju
+  flask:
+    container_name: najnaj-flask-container
     build:
       context: .
       dockerfile: Dockerfile.flask
-    container_name: najnaj-flask-container
+    env_file:
+      - .env
+    networks:
+      - najnaj-network
     ports:
       - "5000:5000"
-    env_file:
-      - env.flask
     volumes:
-      - ./templates:/app/templates:ro
-      - ./static:/app/static:ro
+      # Povezuje ceo korenski direktorijum projekta sa /app u kontejneru
+      - .:/app
+      - najnaj-flask-volume:/app/dataBase
     restart: unless-stopped
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
+    cap_drop:
+      - ALL
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      test: ["CMD", "curl", "-f", "http://localhost:5000"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
-    networks:
-      - najnaj-network
 
-  tailwind-css:
+  # Servis za Tailwind CSS frontend
+  tailwind:
+    container_name: najnaj-tailwind-container
     build:
       context: .
       dockerfile: Dockerfile.tailwind
-    container_name: najnaj-tailwind-container
-    ports:
-      - "3000:3000"
-    env_file:
-      - env.tailwind
-    volumes:
-      - ./static/css:/app/static/css
-      - ./tailwind.config.js:/app/tailwind.config.js:ro
-    restart: unless-stopped
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "5m"
-        max-file: "2"
-    healthcheck:
-      test: ["CMD", "npm", "run", "build"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
     networks:
       - najnaj-network
-    depends_on:
-      - flask-app
+    volumes:
+      # Takođe povezuje ceo korenski direktorijum projekta sa /app
+      - .:/app
+    cpus: 0.5
+    cap_drop:
+      - ALL
 
 networks:
   najnaj-network:
-    driver: bridge 
+    driver: bridge
 
 volumes:
-  flask-data:
-  
+  najnaj-flask-volume:
+
