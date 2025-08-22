@@ -4,13 +4,11 @@ import sqlite3
 import os
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
 load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "najnaj_pozarevac")
 
-# Putanja do baze iz okruženja (env), podrazumevano na messages.db u root-u
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATABASE = os.getenv("DATABASE_PATH", os.path.join(BASE_DIR, "app.db"))
 
@@ -18,7 +16,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 
 def init_db():
     try:
-        # Ako je putanja u poddirektorijumu, obezbedi da postoji direktorijum
         db_dir = os.path.dirname(DATABASE)
         if db_dir:
             os.makedirs(db_dir, exist_ok=True)
@@ -26,7 +23,6 @@ def init_db():
         db = sqlite3.connect(DATABASE)
         cursor = db.cursor()
         
-        # Kreiraj tabelu ako ne postoji
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS messages (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -48,7 +44,6 @@ def save_message(name, email, message):
     try:
         print(f"Pokušavam da sačuvam poruku od: {name} ({email}) u {DATABASE}")
         
-        # Proveri da li fajl postoji i da li ima dozvole za pisanje
         if os.path.exists(DATABASE):
             print(f"Baza postoji: {DATABASE}")
             print(f"Dozvole za bazu: {oct(os.stat(DATABASE).st_mode)[-3:]}")
@@ -58,7 +53,6 @@ def save_message(name, email, message):
         db = sqlite3.connect(DATABASE, check_same_thread=False)
         cursor = db.cursor()
         
-        # Ubaci poruku
         cursor.execute('''
             INSERT INTO messages (name, email, message)
             VALUES (?, ?, ?)
@@ -88,31 +82,6 @@ def get_all_messages():
         print(f"GREŠKA pri čitanju poruka: {e}")
         return []
 
-def backup_database():
-    """Kreira backup baze podataka"""
-    try:
-        import shutil
-        from datetime import datetime
-        
-        # Kreiraj backups direktorijum ako ne postoji
-        backup_dir = os.path.join(BASE_DIR, "backups")
-        os.makedirs(backup_dir, exist_ok=True)
-        
-        # Ime backup fajla sa timestamp-om
-        backup_name = f"backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}.db"
-        backup_path = os.path.join(backup_dir, backup_name)
-        
-        if os.path.exists(DATABASE):
-            shutil.copy2(DATABASE, backup_path)
-            print(f"✅ Backup kreiran: {backup_name}")
-            return True
-        else:
-            print("❌ Baza ne postoji za backup")
-            return False
-            
-    except Exception as e:
-        print(f"❌ Greška pri kreiranju backup-a: {e}")
-        return False
 
 # Mail konfiguracija iz okruženja
 app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
@@ -175,16 +144,6 @@ def admin_messages():
     messages = get_all_messages()
     print(f"Admin panel - pronađeno {len(messages)} poruka")
     return render_template('admin_messages.html', messages=messages)
-
-@app.route('/admin/backup')
-def admin_backup():
-    """Kreira backup baze podataka"""
-    print("Admin panel - kreiranje backup-a baze")
-    if backup_database():
-        flash("Backup baze uspešno kreiran!", "success")
-    else:
-        flash("Greška pri kreiranju backup-a!", "error")
-    return redirect(url_for('admin_messages'))
 
 if __name__ == '__main__':
     print("=== POKRETANJE APLIKACIJE ===")
