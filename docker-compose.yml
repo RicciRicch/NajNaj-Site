@@ -16,7 +16,7 @@ services:
     volumes:
       # Povezuje ceo korenski direktorijum projekta sa /app u kontejneru
       - .:/app
-      - najnaj-flask-volume:/app/dataBase
+      - najnaj-flask-volume:/app/app.db
     restart: unless-stopped
     cap_drop:
       - ALL
