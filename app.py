@@ -12,7 +12,7 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY", "najnaj_pozarevac")
 
 # Putanja do baze iz okruženja (env), podrazumevano na messages.db u root-u
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATABASE = os.getenv("DB_PATH", os.path.join(BASE_DIR, "app.db"))
+DATABASE = os.getenv("DATABASE_PATH", os.path.join(BASE_DIR, "app.db"))
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 
