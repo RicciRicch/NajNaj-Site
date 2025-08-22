@@ -82,6 +82,7 @@ app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'true').lower() in ('1','
 app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'zulbrad23@gmail.com')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'mzrxllrrihbtrwyj')
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER', 'zulbrad23@gmail.com')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 
 mail = Mail(app)
 
