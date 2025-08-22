@@ -4,13 +4,19 @@ import sqlite3
 import os
 
 app = Flask(__name__)
-app.secret_key = "najnaj_pozarevac"
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "najnaj_pozarevac")
 
-DATABASE = 'messages.db'
+# Putanja do baze iz okruženja (env), podrazumevano na messages.db u root-u
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE = os.getenv("DB_PATH", os.path.join(BASE_DIR, "messages.db"))
 
 def init_db():
     try:
-        print(f"Kreiram bazu: {DATABASE}")
+        # Ako je putanja u poddirektorijumu, obezbedi da postoji direktorijum
+        db_dir = os.path.dirname(DATABASE)
+        if db_dir:
+            os.makedirs(db_dir, exist_ok=True)
+        print(f"Kreiram/proveravam bazu: {DATABASE}")
         db = sqlite3.connect(DATABASE)
         cursor = db.cursor()
         
@@ -27,34 +33,17 @@ def init_db():
         
         db.commit()
         db.close()
-        print(f"Baza uspešno kreirana: {DATABASE}")
-        
-        # Proveri da li tabela postoji
-        db = sqlite3.connect(DATABASE)
-        cursor = db.cursor()
-        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='messages'")
-        if cursor.fetchone():
-            print("Tabela 'messages' uspešno kreirana")
-        else:
-            print("GREŠKA: Tabela 'messages' nije kreirana!")
-        db.close()
+        print(f"Baza spremna: {DATABASE}")
         
     except Exception as e:
         print(f"GREŠKA pri inicijalizaciji baze: {e}")
 
 def save_message(name, email, message):
     try:
-        print(f"Pokušavam da sačuvam poruku od: {name} ({email})")
+        print(f"Pokušavam da sačuvam poruku od: {name} ({email}) u {DATABASE}")
         
         db = sqlite3.connect(DATABASE)
         cursor = db.cursor()
-        
-        # Proveri da li tabela postoji
-        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='messages'")
-        if not cursor.fetchone():
-            print("GREŠKA: Tabela 'messages' ne postoji!")
-            db.close()
-            return False
         
         # Ubaci poruku
         cursor.execute('''
@@ -65,7 +54,7 @@ def save_message(name, email, message):
         db.commit()
         db.close()
         
-        print(f"Poruka uspešno sačuvana u bazu!")
+        print("Poruka uspešno sačuvana u bazu!")
         return True
         
     except Exception as e:
@@ -76,32 +65,23 @@ def get_all_messages():
     try:
         db = sqlite3.connect(DATABASE)
         cursor = db.cursor()
-        
-        # Proveri da li tabela postoji
-        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='messages'")
-        if not cursor.fetchone():
-            print("GREŠKA: Tabela 'messages' ne postoji!")
-            db.close()
-            return []
-        
         cursor.execute('SELECT * FROM messages ORDER BY created_at DESC')
         messages = cursor.fetchall()
         db.close()
-        
         print(f"Učitano {len(messages)} poruka iz baze")
         return messages
-        
+    
     except Exception as e:
         print(f"GREŠKA pri čitanju poruka: {e}")
         return []
 
-# Mail konfiguracija
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'zulbrad23@gmail.com'
-app.config['MAIL_PASSWORD'] = 'mzrxllrrihbtrwyj'
-app.config['MAIL_DEFAULT_SENDER'] = 'zulbrad23@gmail.com'
+# Mail konfiguracija iz okruženja
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
+app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', '587'))
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'true').lower() in ('1','true','yes')
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'zulbrad23@gmail.com')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'mzrxllrrihbtrwyj')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER', 'zulbrad23@gmail.com')
 
 mail = Mail(app)
 
@@ -136,7 +116,7 @@ def send_message():
             # Zatim pošalji mail
             msg = Message(subject=f"Poruka od {name}",
                           sender=email,
-                          recipients=['zulbrad23@gmail.com'])
+                          recipients=[os.getenv('MAIL_TO', 'zulbrad23@gmail.com')])
             msg.body = f"Od: {name} <{email}> \n\n Poruka:\n{message}"
             mail.send(msg)
             flash("Poruka je poslata i sačuvana!", "success")
