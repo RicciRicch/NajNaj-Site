@@ -6,41 +6,96 @@ import os
 app = Flask(__name__)
 app.secret_key = "najnaj_pozarevac"
 
-DATABASE = 'dataBase/app.db'
+DATABASE = 'messages.db'
 
 def init_db():
-    db = sqlite3.connect(DATABASE)
-    stmt = db.cursor()
-    stmt.execute('''
-        CREATE TABLE IF NOT EXISTS messages (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            email TEXT NOT NULL,
-            message TEXT NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
-    db.commit()
-    db.close()
+    try:
+        print(f"Kreiram bazu: {DATABASE}")
+        db = sqlite3.connect(DATABASE)
+        cursor = db.cursor()
+        
+        # Kreiraj tabelu ako ne postoji
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS messages (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                email TEXT NOT NULL,
+                message TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        
+        db.commit()
+        db.close()
+        print(f"Baza uspešno kreirana: {DATABASE}")
+        
+        # Proveri da li tabela postoji
+        db = sqlite3.connect(DATABASE)
+        cursor = db.cursor()
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='messages'")
+        if cursor.fetchone():
+            print("Tabela 'messages' uspešno kreirana")
+        else:
+            print("GREŠKA: Tabela 'messages' nije kreirana!")
+        db.close()
+        
+    except Exception as e:
+        print(f"GREŠKA pri inicijalizaciji baze: {e}")
 
 def save_message(name, email, message):
-    db = sqlite3.connect(DATABASE)
-    stmt = db.cursor()
-    stmt.execute('''
-        INSERT INTO messages (name, email, message)
-        VALUES (?, ?, ?)
-    ''', (name, email, message))
-    db.commit()
-    db.close()
+    try:
+        print(f"Pokušavam da sačuvam poruku od: {name} ({email})")
+        
+        db = sqlite3.connect(DATABASE)
+        cursor = db.cursor()
+        
+        # Proveri da li tabela postoji
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='messages'")
+        if not cursor.fetchone():
+            print("GREŠKA: Tabela 'messages' ne postoji!")
+            db.close()
+            return False
+        
+        # Ubaci poruku
+        cursor.execute('''
+            INSERT INTO messages (name, email, message)
+            VALUES (?, ?, ?)
+        ''', (name, email, message))
+        
+        db.commit()
+        db.close()
+        
+        print(f"Poruka uspešno sačuvana u bazu!")
+        return True
+        
+    except Exception as e:
+        print(f"GREŠKA pri čuvanju poruke: {e}")
+        return False
 
 def get_all_messages():
-    db = sqlite3.connect(DATABASE)
-    stmt = db.cursor()
-    stmt.execute('SELECT * FROM messages ORDER BY created_at DESC')
-    messages = stmt.fetchall()
-    db.close()
-    return messages
+    try:
+        db = sqlite3.connect(DATABASE)
+        cursor = db.cursor()
+        
+        # Proveri da li tabela postoji
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='messages'")
+        if not cursor.fetchone():
+            print("GREŠKA: Tabela 'messages' ne postoji!")
+            db.close()
+            return []
+        
+        cursor.execute('SELECT * FROM messages ORDER BY created_at DESC')
+        messages = cursor.fetchall()
+        db.close()
+        
+        print(f"Učitano {len(messages)} poruka iz baze")
+        return messages
+        
+    except Exception as e:
+        print(f"GREŠKA pri čitanju poruka: {e}")
+        return []
 
+# Mail konfiguracija
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
@@ -48,7 +103,7 @@ app.config['MAIL_USERNAME'] = 'zulbrad23@gmail.com'
 app.config['MAIL_PASSWORD'] = 'mzrxllrrihbtrwyj'
 app.config['MAIL_DEFAULT_SENDER'] = 'zulbrad23@gmail.com'
 
-mail =Mail(app)
+mail = Mail(app)
 
 @app.route('/')
 def home():
@@ -62,35 +117,48 @@ def kontakt():
 def meni():
     return render_template('meni.html')
 
-@app.route('/send-message', methods = ['POST'])
+@app.route('/send-message', methods=['POST'])
 def send_message():
     name = request.form.get('name')
     email = request.form.get('email')
     message = request.form.get('message')
 
+    print(f"Primljena poruka od: {name} ({email})")
+    print(f"Sadržaj: {message[:50]}...")
+
     if not name or not email or not message:
         flash("Molimo popunite sva polja!", "error")
         return redirect(url_for('kontakt'))
     
-    try:
-        save_message(name, email, message)
-        msg = Message(subject=f"Poruka od {name}",
-                      sender=email,
-                      recipients=['zulbrad23@gmail.com'])
-        msg.body = f"Od: {name} <{email}> \n\n Poruka:\n{message}"
-        mail.send(msg)
-        flash("Poruka je poslata i sačuvana!", "success")
-    except Exception as e: 
-        print("Greška pri slanju maila", e)
-        flash("Greška pri slanju poruka", "error")
+    # Prvo sačuvaj u bazu
+    if save_message(name, email, message):
+        try:
+            # Zatim pošalji mail
+            msg = Message(subject=f"Poruka od {name}",
+                          sender=email,
+                          recipients=['zulbrad23@gmail.com'])
+            msg.body = f"Od: {name} <{email}> \n\n Poruka:\n{message}"
+            mail.send(msg)
+            flash("Poruka je poslata i sačuvana!", "success")
+            print("Mail uspešno poslat")
+        except Exception as e: 
+            print(f"Greška pri slanju maila: {e}")
+            flash("Poruka je sačuvana, ali došlo je do greške pri slanju email-a", "warning")
+    else:
+        flash("Greška pri čuvanju poruke u bazu", "error")
+        print("Poruka NIJE sačuvana u bazu!")
 
     return redirect(url_for('kontakt'))
 
 @app.route('/admin/messages')
 def admin_messages():
+    print(f"Admin panel - tražim poruke u bazi: {DATABASE}")
     messages = get_all_messages()
+    print(f"Admin panel - pronađeno {len(messages)} poruka")
     return render_template('admin_messages.html', messages=messages)
 
 if __name__ == '__main__':
+    print("=== POKRETANJE APLIKACIJE ===")
     init_db()
+    print("=== APLIKACIJA POKRENUTA ===")
     app.run(debug=True, host='0.0.0.0', port=5000)
